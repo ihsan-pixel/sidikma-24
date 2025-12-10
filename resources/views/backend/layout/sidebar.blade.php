@@ -18,7 +18,7 @@
             <li class="menu-item">
                 <a href="/dashboard" class="menu-link ">
                     <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                    <div>Dashboardss</div>
+                    <div>Dashboard</div>
                 </a>
             </li>
             <li class="menu-item">
