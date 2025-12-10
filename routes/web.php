@@ -207,6 +207,9 @@ Route::middleware('auth')->group(function () {
     */
     Route::post('/midtrans/token', [SnapController::class, 'token'])->name('midtrans.token');
     Route::post('/midtrans/payment', [SnapController::class, 'payment'])->name('midtrans.payment');
+
+    Route::get('/cek', fn () => 'LARAVEL OK');
+
 });
 
 /*
