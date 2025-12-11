@@ -26,43 +26,35 @@
             <div class="card-body bg-light">
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="card border-0">
-                            <div class="card-body p-0">
-                                <h5 class="card-title text-primary mb-3">Informasi Madrasah</h5>
-                                <table class="table table-borderless table-sm">
-                                    <tr>
-                                        <td width="140" class="fw-semibold">Nama Madrasah</td>
-                                        <td>:</td>
-                                        <td><strong>MI Ma'arif Wonosari</strong></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="fw-semibold">Alamat</td>
-                                        <td>:</td>
-                                        <td>Gunungkidul</td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
+                        <h5 class="text-primary mb-3">Informasi Madrasah</h5>
+                        <table class="table table-borderless table-sm">
+                            <tr>
+                                <td width="140" class="fw-semibold">Nama Madrasah</td>
+                                <td>:</td>
+                                <td><strong>MI Ma'arif Wonosari</strong></td>
+                            </tr>
+                            <tr>
+                                <td class="fw-semibold">Alamat</td>
+                                <td>:</td>
+                                <td>Gunungkidul</td>
+                            </tr>
+                        </table>
                     </div>
 
                     <div class="col-md-6">
-                        <div class="card border-0 bg-transparent">
-                            <div class="card-body p-0">
-                                <h5 class="card-title text-primary mb-3">Informasi Invoice</h5>
-                                <table class="table table-borderless table-sm">
-                                    <tr>
-                                        <td width="140" class="fw-semibold">No Invoice</td>
-                                        <td>:</td>
-                                        <td><span class="badge bg-secondary">INV-2024-001</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="fw-semibold">Tanggal</td>
-                                        <td>:</td>
-                                        <td>{{ now()->format('d M Y') }}</td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
+                        <h5 class="text-primary mb-3">Informasi Invoice</h5>
+                        <table class="table table-borderless table-sm">
+                            <tr>
+                                <td width="140" class="fw-semibold">No Invoice</td>
+                                <td>:</td>
+                                <td><span class="badge bg-secondary">INV-2024-001</span></td>
+                            </tr>
+                            <tr>
+                                <td class="fw-semibold">Tanggal</td>
+                                <td>:</td>
+                                <td>{{ now()->format('d M Y') }}</td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </div>
