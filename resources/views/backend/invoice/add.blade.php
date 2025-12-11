@@ -31,12 +31,12 @@
                             <tr>
                                 <td width="140" class="fw-semibold">Nama Madrasah</td>
                                 <td>:</td>
-                                <td><strong>MI Ma'arif Wonosari</strong></td>
+                                <td><strong>{{ $invoice->school_name ?? '-' }}</strong></td>
                             </tr>
                             <tr>
                                 <td class="fw-semibold">Alamat</td>
                                 <td>:</td>
-                                <td>Gunungkidul</td>
+                                <td>{{ $invoice->school_address ?? '-' }}</td>
                             </tr>
                         </table>
                     </div>
@@ -47,12 +47,12 @@
                             <tr>
                                 <td width="140" class="fw-semibold">No Invoice</td>
                                 <td>:</td>
-                                <td><span class="badge bg-secondary">INV-2024-001</span></td>
+                                <td><span class="badge bg-secondary">{{ $invoice->invoice_number }}</span></td>
                             </tr>
                             <tr>
                                 <td class="fw-semibold">Tanggal</td>
                                 <td>:</td>
-                                <td>{{ now()->format('d M Y') }}</td>
+                                <td>{{ $invoice->invoice_date ? \Carbon\Carbon::parse($invoice->invoice_date)->format('d M Y') : '-' }}</td>
                             </tr>
                         </table>
                     </div>
@@ -96,7 +96,7 @@
                             <tr>
                                 <th colspan="5" class="text-end fw-bold">Total</th>
                                 <th class="text-end text-success fs-5 fw-bold">
-                                    Rp 1.320.000
+                                    Rp {{ $invoice->total_amount ? number_format($invoice->total_amount, 0, ',', '.') : '-' }}
                                 </th>
                             </tr>
                         </tfoot>
@@ -110,9 +110,17 @@
                     <i class="fas fa-info-circle me-2"></i>Catatan Penting
                 </h6>
                 <ul class="mb-0 text-muted">
-                    <li>Pembayaran iuran dilakukan per semester.</li>
-                    <li>Invoice ini sah tanpa tanda tangan.</li>
-                    <li>Pembayaran dapat dilakukan melalui transfer bank atau tunai.</li>
+                    @if($invoice->notes)
+                        @foreach(explode('.', $invoice->notes) as $note)
+                            @if(trim($note))
+                                <li>{{ trim($note) }}.</li>
+                            @endif
+                        @endforeach
+                    @else
+                        <li>Pembayaran iuran dilakukan per semester.</li>
+                        <li>Invoice ini sah tanpa tanda tangan.</li>
+                        <li>Pembayaran dapat dilakukan melalui transfer bank atau tunai.</li>
+                    @endif
                 </ul>
             </div>
 
