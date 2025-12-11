@@ -6,7 +6,7 @@
         <a href="/dashboard" class="app-brand-link" style="width: 100%; display: flex; justify-content: center;">
             <img src="{{ asset('') }}storage/images/logo/logo sidikma gk.png" alt="" style="width: 70%;">
         </a>
-    </div>
+    </div>       
 
     <div class="menu-inner-shadow"></div>
     @if (request()->user()->role == 1)
@@ -18,7 +18,7 @@
             <li class="menu-item">
                 <a href="/dashboard" class="menu-link ">
                     <i class="fa-brands fa-slack"></i>
-                    <div style="margin-left: 8px;">Dashboardss</div>
+                    <div style="margin-left: 8px;">Dashboards</div>
                 </a>
             </li>
             <li class="menu-item">
@@ -83,7 +83,7 @@
                     </li>
                 </ul>
             </li>
-
+            
             <li class="menu-item">
                 <a href="/profile_sekolah" class="menu-link ">
                     <i class="fa-regular fa-building"></i>
@@ -589,10 +589,10 @@
           border-radius: 6px;
           transition: background-color 0.3s, color 0.3s;
         }
-
+        
         .menu-link:hover {
           background-color: #0a48b3 !important;
           color: #ffffff !important;
         }
-        </style>
+        </style>        
 </aside>

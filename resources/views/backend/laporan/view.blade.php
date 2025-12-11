@@ -76,6 +76,7 @@
                                 <th>Nilai</th>
                                 <th>Metode Pembayaran</th>
                                 <th>Status</th>
+                                <th>Keterangan</th>
                                 <th>Created</th>
 
                             </tr>
@@ -131,6 +132,7 @@
                                 '<td>' + formatNumber(data[i].nilai) + '</td>' +
                                 '<td>' + data[i].metode_pembayaran + '</td>' +
                                 '<td>' + data[i].status + '</td>' +
+                                '<td>' + data[i].keterangan + '</td>' +
                                 '<td>' + data[i].created_at + '</td>' +
                                 '</tr>';
                         }

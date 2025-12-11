@@ -13,7 +13,7 @@
                                
                                 <a href="#"
                                     target="_blank" class="footer-link me-4">Whatsapp: {{ Helper::apk()->tlp }}</a>
-                                <a href="#" target="_blank"
+                                <a href="https://wa.me/6288215927491?" target="_blank"
                                     class="footer-link d-none d-sm-inline-block">Versi: {{ Helper::apk()->versi }}</a>
                             </div>
                         </div>

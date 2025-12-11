@@ -256,10 +256,16 @@ class LaporanController extends Controller
     }
     function lainyaPdf($id_tagihan)
     {
-        $users = DB::select("select t.*, u.nama_lengkap from tagihan t 
-        left join users u on u.id=t.user_id where t.id = '$id_tagihan'");
+        $users = DB::select("SELECT t.*, u.nama_lengkap, u.email, u.alamat, u.kelas_id 
+            FROM tagihan t 
+            LEFT JOIN users u ON u.id = t.user_id 
+            WHERE t.id = ?", [$id_tagihan]);
+
 
         $data['nama_lengkap'] = $users[0]->nama_lengkap;
+        $data['alamat'] = $users[0]->alamat;
+        $data['email'] = $users[0]->email;
+        $data['kelas_id'] = $users[0]->kelas_id;
         // dd($data['users']);
         $data['date'] = now();
         $data['lainya'] = DB::select("select t.*, u.nama_lengkap, ta.tahun, jp.pembayaran, u.alamat, p.order_id, p.pdf_url, p.metode_pembayaran, 
@@ -270,5 +276,67 @@ class LaporanController extends Controller
         $pdf = PDF::loadView('backend.laporan.pdfViewLainya', $data);
         // $pdf = PDF::loadView('backend.laporan.pdfViewBulanan', compact('invoiceItems', 'invoiceData'));
         return $pdf->download('Lainya_' . $id_tagihan . '_' . now() . '.pdf');
+    }
+    function pdfSkJuli2025($id_tagihan)
+    {
+        $users = DB::select("SELECT t.*, u.nama_lengkap, u.ketugasan, u.jurusan_id, u.ptt_lulus, u.tmt, u.nuptk, u.nis, u.tempat_lahir, tgl_lahir, u.p_studi, u.email, u.alamat, u.kelas_id 
+            FROM tagihan t 
+            LEFT JOIN users u ON u.id = t.user_id 
+            WHERE t.id = ?", [$id_tagihan]);
+
+        if (empty($users)) {
+            abort(404, 'Tagihan tidak ditemukan');
+        }
+
+        $tagihan = $users[0];
+
+        // Tentukan kode jenjang berdasarkan kelas_id
+        if ($tagihan->kelas_id >= 1 && $tagihan->kelas_id <= 63) {
+            $kodeJenjang = '01';
+        } else {
+            $kodeJenjang = '02';
+        }
+
+        // Format nomor SK
+        $nomor = sprintf('%04d/SK.%s/LPM.GK/VI/2025', $tagihan->id, $kodeJenjang);
+
+        if ($tagihan->kelas_id >= 1 && $tagihan->kelas_id <= 71) {
+            $kode_tembusan = 'Kemenag Kabupaten Gunungkidul';
+        } else {
+            $kode_tembusan = 'Dinas Pendidikan Kabupaten Gunungkidul';
+        }
+
+        $tembusan = sprintf($kode_tembusan);
+        // Simpan nomor ke database kalau belum ada
+        //DB::table('tagihan')->where('id', $tagihan->id)->update(['nomor' => $nomor]);
+
+        // Data untuk view PDF
+        $data['nama_lengkap'] = $tagihan->nama_lengkap;
+        $data['p_studi'] = $tagihan->p_studi;
+        $data['ketugasan'] = $tagihan->ketugasan;
+        $data['ptt_lulus'] = $tagihan->ptt_lulus;
+        $data['jurusan_id'] = $tagihan->jurusan_id;
+        $data['nuptk'] = $tagihan->nuptk;
+        $data['tmt'] = $tagihan->tmt;
+        $data['nis'] = $tagihan->nis;
+        $data['tempat_lahir'] = $tagihan->tempat_lahir;
+        $data['tgl_lahir'] = $tagihan->tgl_lahir;
+        $data['alamat'] = $tagihan->alamat;
+        $data['email'] = $tagihan->email;
+        $data['kelas_id'] = $tagihan->kelas_id;
+        $data['date'] = now();
+        $data['nomor'] = $nomor;
+        $data['tembusan'] = $tembusan;
+
+        $data['lainya'] = DB::select("select t.*, u.nama_lengkap, ta.tahun, jp.pembayaran, u.alamat, p.order_id, p.pdf_url, p.metode_pembayaran, 
+            p.status as status_payment from tagihan t 
+            left join users u on t.user_id=u.id 
+            left join tahun_ajaran ta on ta.id=t.thajaran_id 
+            left join jenis_pembayaran jp on jp.id=t.jenis_pembayaran 
+            left join payment p on p.tagihan_id=t.id 
+            where t.id = '$id_tagihan' and t.jenis_pembayaran != '1'");
+
+        $pdf = PDF::loadView('backend.laporan.pdfSkJuli2025', $data);
+        return $pdf->stream('Lainya_' . $id_tagihan . '_' . now() . '.pdf');
     }
 }

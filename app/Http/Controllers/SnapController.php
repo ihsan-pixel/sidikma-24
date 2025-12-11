@@ -16,8 +16,10 @@ class SnapController extends Controller
     {
         // Set your Merchant Server Key
         \Midtrans\Config::$serverKey = Helper::apk()->serverKey;
+        // Set your Merchant Client Key
+        \Midtrans\Config::$clientKey = Helper::apk()->clientKey;
         // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
-        \Midtrans\Config::$isProduction = false;
+        \Midtrans\Config::$isProduction = true;
         // Set sanitization on (default)
         \Midtrans\Config::$isSanitized = true;
         // Set 3DS transaction for credit card to true
@@ -106,8 +108,10 @@ class SnapController extends Controller
     {
         // Set your Merchant Server Key
         \Midtrans\Config::$serverKey = Helper::apk()->serverKey;
+        // Set your Merchant Client Key
+        \Midtrans\Config::$clientKey = Helper::apk()->clientKey;
         // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
-        \Midtrans\Config::$isProduction = false;
+        \Midtrans\Config::$isProduction = true;
         // Set sanitization on (default)
         \Midtrans\Config::$isSanitized = true;
         // Set 3DS transaction for credit card to true
@@ -198,5 +202,32 @@ class SnapController extends Controller
         echo 'RESULT <br><pre>';
         var_dump($result);
         echo '</pre>';
+    }
+    public function callback(Request $request)
+    {
+        // Konfigurasi Midtrans
+        \Midtrans\Config::$serverKey = Helper::apk()->serverKey;
+        \Midtrans\Config::$isProduction = true;
+        \Midtrans\Config::$isSanitized = true;
+        \Midtrans\Config::$is3ds = true;
+
+        // Ambil notifikasi dari Midtrans
+        $notif = new \Midtrans\Notification();
+
+        // Cek status transaksi dari notifikasi
+        $transaction = $notif->transaction_status;
+        $type = $notif->payment_type;
+        $order_id = $notif->order_id;
+        $fraud = $notif->fraud_status;
+
+        // Update status pembayaran di tabel `payment`
+        $payment = \App\Models\Payment::where('order_id', $order_id)->first();
+        if ($payment) {
+            $payment->status = $transaction;
+            $payment->metode_pembayaran = $type;
+            $payment->save();
+        }
+
+        return response()->json(['message' => 'Callback received and handled'], 200);
     }
 }

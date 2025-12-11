@@ -2,6 +2,18 @@
 @include('sweetalert::alert')
 <!-- Google Tag Manager (noscript) (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
 
+<!-- Logo di kiri atas -->
+<div style="position: absolute; top: 20px; left: 20px; display: flex; align-items: center; gap: 10px;">
+    <img src="{{ asset('storage/images/logo/logo maarif (1) (1).png') }}" 
+         alt="Logo Maarif" 
+         style="width: 100px;">
+    
+    <img src="{{ asset('storage/images/logo/logo sidikma gk.png') }}" 
+         alt="Logo Sidikma" 
+         style="width: 160px;">
+</div>
+
+
 <!-- Content -->
 <div class="container-xxl">
     <div class="authentication-wrapper authentication-basic container-p-y">

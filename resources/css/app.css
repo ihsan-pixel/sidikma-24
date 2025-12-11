@@ -1,0 +1,6 @@
+.menu-item .menu-link:hover {
+    background-color: #009991; /* Warna hijau */
+    color: white; /* Ubah warna teks agar lebih kontras */
+    border-radius: 5px; /* Opsional: membuat sudut lebih lembut */
+    transition: background-color 0.3s ease-in-out; /* Animasi halus */
+}

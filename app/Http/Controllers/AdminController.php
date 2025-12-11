@@ -20,6 +20,8 @@ class AdminController extends Controller
     public function add()
     {
         $data['title'] = "Tambah Admin";
+        $data['kelas'] = DB::select("select * from kelas");
+        $data['admin'] = DB::table('users');
         return view('backend.admin.add', $data);
     }
     public function addProses(Request $request)
@@ -27,18 +29,16 @@ class AdminController extends Controller
         $file_path = public_path() . '/storage/images/users/' . $request->image;
         File::delete($file_path);
         $image = $request->file('image');
-        $filename = $image->getClientOriginalName();
-        $image->move(public_path('storage/images/users'), $filename);
+        //$filename = $image->getClientOriginalName();
+        //$image->move(public_path('storage/images/users'), $filename);
         $data = [
             'nama_lengkap' => $request->nama_lengkap,
+            'kelas_id' => $request->kelas_id,
             'email' => $request->email,
-            'no_tlp' => $request->no_tlp,
-            'tgl_lahir' => $request->tgl_lahir,
             'password' => Hash::make($request->password),
-            'alamat' => $request->alamat,
             'role' => $request->role,
             'status' => "ON",
-            'image' => $request->file('image')->getClientOriginalName(),
+        //    'image' => $request->file('image')->getClientOriginalName(),
             'created_at' => now()
         ];
         // dd($data);
@@ -55,9 +55,14 @@ class AdminController extends Controller
     public function edit(Request $request)
     {
         $data['title'] = "Edit Admin";
-        $data['role'] = ['1', '3'];
+        $data['role'] = ['1', '2', '3'];
         $data['status'] = ['ON', 'OFF'];
         $data['admin'] = DB::table('users')->where('id', $request->id)->first();
+        $data['siswa'] = DB::table('users')->where('id', $request->id)->first();
+        $data['kelas'] = DB::select("select * from kelas");
+        $data['jurusan'] = DB::select("select * from jurusan");
+        $data['phbnu'] = DB::select("select * from phbnu");
+        $data['k_sertifikat'] = DB::select("select * from k_sertifikat");
         return view('backend.admin.edit', $data);
     }
     public function editProses(Request $request)
@@ -71,33 +76,77 @@ class AdminController extends Controller
             $filename = $image->getClientOriginalName();
             $image->move(public_path('storage/images/users'), $filename);
             $data = [
+                'nis' => $request->nis,
                 'nama_lengkap' => $request->nama_lengkap,
                 'email' => $request->email,
+                'kelas_id' => $request->kelas_id,
                 'no_tlp' => $request->no_tlp,
                 'tgl_lahir' => $request->tgl_lahir,
                 'alamat' => $request->alamat,
                 'role' => $request->role,
                 'status' => $request->status,
                 'image' => $request->file('image')->getClientOriginalName(),
-                'updated_at' => now()
+                'updated_at' => now(),
+                
+                'thn_pelajaran' => $request->thn_pelajaran,
+                'kelas1' => $request->kelas1,
+                'kelas2' => $request->kelas2,
+                'kelas3' => $request->kelas3,
+                'kelas4' => $request->kelas4,
+                'kelas5' => $request->kelas5,
+                'kelas6' => $request->kelas6,
+                'kelas7' => $request->kelas7,
+                'kelas8' => $request->kelas8,
+                'kelas9' => $request->kelas9,
+                'jumlahsiswa' => $request->jumlahsiswa,
+                
+                'akreditasi' => $request->akreditasi,
+                'masaakreditasi' => $request->masaakreditasi,
+                'statustanah' => $request->statustanah,
+                'luastanah' => $request->luastanah,
+                'sertifikat' => $request->sertifikat,
+                'atasnama' => $request->atasnama,
+                'phbnu' => $request->phbnu
             ];
         } else {
             $data = [
+                'nis' => $request->nis,
                 'nama_lengkap' => $request->nama_lengkap,
                 'email' => $request->email,
+                'kelas_id' => $request->kelas_id,
                 'no_tlp' => $request->no_tlp,
                 'tgl_lahir' => $request->tgl_lahir,
                 'alamat' => $request->alamat,
                 'role' => $request->role,
                 'status' => $request->status,
-                'updated_at' => now()
+                'updated_at' => now(),
+                
+                'thn_pelajaran' => $request->thn_pelajaran,
+                'kelas1' => $request->kelas1,
+                'kelas2' => $request->kelas2,
+                'kelas3' => $request->kelas3,
+                'kelas4' => $request->kelas4,
+                'kelas5' => $request->kelas5,
+                'kelas6' => $request->kelas6,
+                'kelas7' => $request->kelas7,
+                'kelas8' => $request->kelas8,
+                'kelas9' => $request->kelas9,
+                'jumlahsiswa' => $request->jumlahsiswa,
+                
+                'akreditasi' => $request->akreditasi,
+                'masaakreditasi' => $request->masaakreditasi,
+                'statustanah' => $request->statustanah,
+                'luastanah' => $request->luastanah,
+                'sertifikat' => $request->sertifikat,
+                'atasnama' => $request->atasnama,
+                'phbnu' => $request->phbnu
             ];
         }
 
         // dd($data);
         DB::table('users')->where('id', $request->id)->update($data);
         Alert::success('Admin berhasil diubah');
-        return redirect('admin');
+        return redirect('profile');
     }
     public function delete($id)
     {

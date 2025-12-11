@@ -11,6 +11,16 @@
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 
 <head>
+    <style>
+        .btn-primary {
+        background-color: #12643a !important; /* Warna hijau Bootstrap */
+        border-color: #12643a !important;
+        }
+        .btn-primary:hover {
+        background-color: #218838 !important; /* Warna hijau lebih gelap saat hover */
+        border-color: #1e7e34 !important;
+        }
+    </style>
     <meta charset="utf-8" />
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />

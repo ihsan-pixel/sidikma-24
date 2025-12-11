@@ -12,7 +12,7 @@ class TunggakanController extends Controller
     public function view()
     {
         $data['title'] = "Tunggakan";
-        $data['siswa'] = DB::select("select * from users where role = '2'");
+        $data['siswa'] = DB::select("select * from users where role = '2' or role = '3'");
 
         return view('backend.tunggakan.view', $data);
     }

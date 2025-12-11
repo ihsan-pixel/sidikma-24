@@ -63,7 +63,7 @@ class AuthController extends Controller
                 'created_at' => now(),
             ];
             Http::get('https://wa.dlhcode.com/send-message?api_key=hZdj1cXOBd9kKEln6dIhE0SOhrUtg9sa&sender=6289636337580&number=' . $cekUsers->no_tlp . '&message=Link reset Password '.url('/resetPassword/'.$token.'').'');
-            Alert::success('Token sudah dikirim ke nomor Whatsapp, Silahkan Reset Password anda.');
+            Alert::success('Maaf, Silahkan Hubungi Admin LP. Maarif Gunungkidul.');
             if ($cekUsersToken == true) {
                 DB::table('password_reset_tokens')->where('email', $cekUsersToken->email)->update($data);
             } else {
