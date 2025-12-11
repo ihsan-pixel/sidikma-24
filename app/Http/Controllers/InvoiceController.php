@@ -63,7 +63,7 @@ class InvoiceController extends Controller
                 'invoice_number' => 'INV-' . date('Y') . '-' . str_pad($id, 3, '0', STR_PAD_LEFT),
                 'invoice_date' => now()->format('Y-m-d'),
                 'school_name' => $data['siswa']->name ?? 'MI Ma\'arif Wonosari',
-                'school_address' => 'Gunungkidul',
+                'school_address' => $data['siswa']->alamat ?? 'Gunungkidul',
                 'total_amount' => 1320000.00,
                 'notes' => 'Pembayaran iuran dilakukan per semester. Invoice ini sah tanpa tanda tangan. Pembayaran dapat dilakukan melalui transfer bank atau tunai.',
                 'status' => 'draft'
