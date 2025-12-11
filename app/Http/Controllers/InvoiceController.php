@@ -113,4 +113,41 @@ class InvoiceController extends Controller
 
         return view('backend.invoice.add', $data);
     }
+
+    public function classBilling($kelasId)
+    {
+        $data['title'] = 'Tagihan Kelas - Invoice';
+
+        // Get class information
+        $data['kelas'] = DB::table('kelas')->where('id', $kelasId)->first();
+        if (!$data['kelas']) {
+            abort(404);
+        }
+
+        // Get all students in this class
+        $data['students'] = DB::table('users as u')
+            ->leftJoin('kelas as k', 'u.kelas_id', '=', 'k.id')
+            ->leftJoin('jurusan as j', 'u.jurusan_id', '=', 'j.id')
+            ->where('u.kelas_id', $kelasId)
+            ->where('u.role', 3)
+            ->where('u.status', '!=', 'Lulus')
+            ->select('u.*', 'k.nama_kelas', 'j.nama_jurusan')
+            ->get();
+
+        // Get invoices for this class
+        $data['invoices'] = DB::table('invoices as i')
+            ->join('users as u', 'i.user_id', '=', 'u.id')
+            ->where('u.kelas_id', $kelasId)
+            ->select('i.*', 'u.nama_lengkap', 'u.name as school_name', 'u.alamat as school_address')
+            ->get();
+
+        // Calculate totals
+        $data['totalStudents'] = $data['students']->count();
+        $data['totalInvoices'] = $data['invoices']->count();
+        $data['totalAmount'] = $data['invoices']->sum('total_amount');
+        $data['paidInvoices'] = $data['invoices']->where('status', 'paid')->count();
+        $data['unpaidInvoices'] = $data['invoices']->where('status', '!=', 'paid')->count();
+
+        return view('backend.invoice.invoice', $data);
+    }
 }
